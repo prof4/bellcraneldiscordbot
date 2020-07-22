@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+const { Client, MessageAttachment } = require('discord.js');
 module.exports = {
     name: 'profile',
     description: "shows your profile info",
