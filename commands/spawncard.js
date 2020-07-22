@@ -7,8 +7,9 @@ module.exports = {
     name: 'spawncard',
     description: "this is a card spawning command!",
     execute(message, args) {
-        var boss_man = '724640446982127666'
-        if (!message.member.roles.cache.has(boss_man)) return message.channel.send('You do not have the permissions');
+        var cardspawner = '734389283632185345';
+
+        if (!message.member.roles.cache.has(cardspawner)) return message.channel.send('You do not have the permissions');
         var cards = card_index[Math.floor(Math.random() * card_index.length)];
         const attachment2 = new MessageAttachment(cards)
         message.channel.send(message.author, attachment2);
