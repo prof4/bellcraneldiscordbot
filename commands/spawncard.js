@@ -9,7 +9,7 @@ module.exports = {
     execute(message, args) {
         var cardspawner = '734389283632185345';
 
-        if (!message.member.roles.cache.has(cardspawner)) return message.channel.send('You do not have the permissions');
+        if (!message.member.permissions.cache.has("manage messages")) return message.channel.send('You do not have the permissions');
         var cards = card_index[Math.floor(Math.random() * card_index.length)];
         const attachment2 = new MessageAttachment(cards)
         message.channel.send(message.author, attachment2);
