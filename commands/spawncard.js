@@ -11,8 +11,14 @@ module.exports = {
 
         if (message.member.roles.cache.has(cardspawner)){
             var cards = card_index[Math.floor(Math.random() * card_index.length)];
+            const embed8 = new Discord.MessageEmbed
             const attachment2 = new MessageAttachment(cards)
-            message.channel.send(message.author, attachment2);
+            embed8.setTitle("What's this?")
+            embed8.setDescription("A wild anime card appears!")
+            embed8.setImage(attachment2)
+            embed8.setThumbnail(message.author.displayAvatarURL())
+            embed8.setFooter("Type .claim to add this card to your collection")
+            message.channel.send(embed8);
         } else{
             return message.channel.send('You do not have the permissions');
         }
