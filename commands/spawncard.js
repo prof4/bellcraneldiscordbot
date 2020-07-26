@@ -18,7 +18,7 @@ module.exports = {
                 /*embed8.setImage(attachment2)*/
                 .setThumbnail(message.author.displayAvatarURL())
                 .setFooter("Type .claim to add this card to your collection")
-            message.channel.send(embed8);
+            message.channel.send(embed8, attachment2);
         } else {
             return message.channel.send('You do not have the permissions');
         }
