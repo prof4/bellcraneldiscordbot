@@ -9,17 +9,17 @@ module.exports = {
     execute(message, args) {
         var cardspawner = '734389283632185345';
 
-        if (message.member.roles.cache.has(cardspawner)){
+        if (message.member.roles.cache.has(cardspawner)) {
             var cards = card_index[Math.floor(Math.random() * card_index.length)];
-            const embed8 = new Discord.MessageEmbed
             const attachment2 = new MessageAttachment(cards)
-            embed8.setTitle("What's this?")
-            embed8.setDescription("A wild anime card appears!")
-            embed8.setImage(attachment2)
-            embed8.setThumbnail(message.author.displayAvatarURL())
-            embed8.setFooter("Type .claim to add this card to your collection")
+            const embed8 = new Discord.MessageEmbed
+                .setTitle("What's this?")
+                .setDescription("A wild anime card appears!")
+                /*embed8.setImage(attachment2)*/
+                .setThumbnail(message.author.displayAvatarURL())
+                .setFooter("Type .claim to add this card to your collection")
             message.channel.send(embed8);
-        } else{
+        } else {
             return message.channel.send('You do not have the permissions');
         }
     }
