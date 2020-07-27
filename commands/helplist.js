@@ -19,7 +19,7 @@ module.exports = {
             .addField('current Server', message.guild.name, true)
             .setColor('#5DADE2')
             .setThumbnail(message.guild.iconURL())
-            .setFooter('Subscribe to prof c4 on youtube.', URL: 'https://www.youtube.com/channel/UCRCnkwj20LCs_xy6iy-b2nw?view_as=subscriber')
+            .setFooter('Subscribe to prof c4 on youtube.')
         message.channel.send(embed3);
     }
 }
