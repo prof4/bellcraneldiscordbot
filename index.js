@@ -22,7 +22,7 @@ var boss_man = '724640446982127666'
 const start_currency = 0
 bot.on('ready', () => {
     console.log('Soul bot is online');
-    bot.user.setActivity('krunker.io gameplay', { type: "WATCHING", url: "https://www.youtube.com/watch?v=qTXpI-7ghp8" }).catch(console.error);
+    bot.user.setActivity('krunker.io gameplay', { type: "CUSTOM_STATUS", url: "https://www.youtube.com/watch?v=qTXpI-7ghp8" }).catch(console.error);
 });
 
 bot.on('guildMemberAdd', member => {
