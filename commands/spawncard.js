@@ -9,7 +9,7 @@ module.exports = {
     execute(message, args) {
         var cardspawner = '734389283632185345';
 
-        if (message.member.roles.cache.has(cardspawner)) {
+        if (message.member.roles.cache.some(role => role.name === "cardspawner") || message.member.hasPermission('MANAGE_MESSAGES')) {
             var cards = card_index[Math.floor(Math.random() * card_index.length)];
             const attachment2 = new MessageAttachment(cards)
             const embed8 = new Discord.MessageEmbed

@@ -3,7 +3,7 @@ module.exports = {
     description: "this is a info command!",
     execute(message, args) {
         var boss_man = '724640446982127666'
-        if (!message.member.roles.cache.has(boss_man)) return message.channel.send('You do not have the permissions');
+        if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('You do not have the permissions');
 
         var user = message.mentions.users.first();
 
