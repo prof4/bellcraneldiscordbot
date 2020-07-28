@@ -64,7 +64,7 @@ bot.on('message', message => {
             message.channel.send('the link to invite the bot')
             message.channel.send('https://discord.com/oauth2/authorize?client_id=727844440604934244&permissions=8&scope=bot')
             message.channel.send('the link to official server: ')
-            message.channel.send('https://discord.gg/XftsWZT)
+            message.channel.send('https://discord.gg/XftsWZT')
 
             break;
         case 'smug':
