@@ -16,9 +16,8 @@ module.exports = {
             .addField('info', PREFIX + 'help info', true)
             .addField('Other', PREFIX + 'help other', true)
             .addField('Version', '0.0.1', true)
-            .addField('current Server', message.guild.name, true)
             .setColor('#5DADE2')
-            .setThumbnail(message.guild.iconURL())
+            .setThumbnail('https://cdn.discordapp.com/avatars/733189090463449209/0fd48dfb8c6763c71a2e03cd02e42b65.png?size=128')
             .setFooter('Subscribe to prof c4 on youtube.')
         message.channel.send(embed3);
     }
