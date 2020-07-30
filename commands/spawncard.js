@@ -15,8 +15,8 @@ module.exports = {
             const embed8 = new Discord.MessageEmbed
                 .setTitle("What's this?")
                 .setDescription("A wild anime card appears!")
-                .setImage(attachment2)
                 .setThumbnail(message.author.displayAvatarURL())
+                .setImage(attachment2)
                 .setFooter("Type .claim to add this card to your collection")
             message.channel.send(embed8, attachment2);
         } else {
