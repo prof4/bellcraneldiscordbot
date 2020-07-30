@@ -27,7 +27,7 @@ bot.on('ready', () => {
 
 bot.on('guildMemberAdd', member => {
 
-    const channel = member.guild.channels.cache.find(channel => channel.name === "🤗welcome🤗");
+    let channel = member.guild.channels.cache.find(channel => channel.name === "🤗welcome🤗");
     if (!channel) return;
 
     channel.send(`Welcome to our server, ${member}, please read the rules in the rules channel`)
@@ -88,6 +88,10 @@ bot.on('message', message => {
             var server_basic_role = args[1];
             break;
         case 'work':
+            break;
+        case 'welcome':
+            if (!args[1]) return message.channel.send('You need to specify a welcome channel');
+            let channel = member.guild.channels.cache.find(channel => channel.name === args[1]);
             break;
 
 
