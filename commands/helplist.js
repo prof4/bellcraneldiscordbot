@@ -17,7 +17,7 @@ module.exports = {
             .addField('Other', PREFIX + 'help other', true)
             .addField('Version', '0.0.1', true)
             .setColor('#5DADE2')
-            .setThumbnail('https://cdn.discordapp.com/avatars/733189090463449209/0fd48dfb8c6763c71a2e03cd02e42b65.png?size=128')
+            .setThumbnail('https://cdn.discordapp.com/avatars/727844440604934244/1406a5ba2e7a349cac3900496e3a26e0.png?size=128')
             .setFooter('Subscribe to prof c4 on youtube.')
         message.channel.send(embed3);
     }
