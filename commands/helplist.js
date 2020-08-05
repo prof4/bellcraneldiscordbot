@@ -9,7 +9,7 @@ module.exports = {
     execute(message, args) {
         const embed3 = new Discord.MessageEmbed()
             .setTitle('help page')
-            .setAuthor('Arata#6550', 'https://cdn.discordapp.com/avatars/725041335630954587/aa9af6bd4f2384f863f2d2afb12b1fbf.png')
+            .setAuthor('Arata#6550', 'https://cdn.discordapp.com/avatars/725041335630954587/ccae0a38f2643e9d91061f1fc5f1c755.png?size=128')
             .addField('Fun', PREFIX + 'help fun', true)
             .addField('Moderation', PREFIX + 'help moderation', true)
             .addField('Utility', PREFIX + 'help utility', true)
