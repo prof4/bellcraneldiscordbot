@@ -3,7 +3,7 @@ const { Client, MessageAttachment } = require('discord.js');
 const bot = new Client();
 
 const PREFIX = '-';
-
+let channel = "🤗welcome🤗"
 const fs = require('fs');
 const { NONAME } = require('dns');
 const { info, warn } = require('console');
@@ -27,7 +27,7 @@ bot.on('ready', () => {
 
 bot.on('guildMemberAdd', member => {
 
-    let channel = member.guild.channels.cache.find(channel => channel.name === "🤗welcome🤗");
+    let channel = member.guild.channels.cache.find(channel => channel.name === channel);
     if (!channel) return;
 
     channel.send(`Welcome to our server, ${member}, please read the rules in the rules channel`)
