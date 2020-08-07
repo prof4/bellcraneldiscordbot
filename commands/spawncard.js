@@ -11,12 +11,11 @@ module.exports = {
 
         if (message.member.roles.cache.some(role => role.name === "cardspawner") || message.member.hasPermission('MANAGE_MESSAGES')) {
             var cards = card_index[Math.floor(Math.random() * card_index.length)];
-            const attachment2 = new MessageAttachment(cards)
+            var attachment2 = new MessageAttachment(cards)
             const embed8 = new Discord.MessageEmbed
                 .setTitle("What's this?")
                 .setDescription("A wild anime card appears!")
                 .setThumbnail(message.author.displayAvatarURL())
-                .setImage(attachment2)
                 .setFooter("Type .claim to add this card to your collection")
             message.channel.send(embed8, attachment2);
         } else {

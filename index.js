@@ -90,6 +90,7 @@ bot.on('message', message => {
         case 'work':
             break;
         case 'welcome':
+            if (message.member.hasPermission('MANAGE_SERVER') || message.member.hasPermission('MANAGE_CHANNELS'))
             if (!args[1]) return message.channel.send('You need to specify a welcome channel');
             let channel = member.guild.channels.cache.find(channel => channel.name === args[1]);
             break;
