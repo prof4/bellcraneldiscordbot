@@ -163,27 +163,7 @@ client.on('guildBanAdd', async (guild, user) => {
     }
 });
 
-bot.on('message', async message => {
-    if (message.content.startsWith(PREFIX)) {
-        const input = message.content.slice(PREFIX.length).trim().split(' ');
-        const command = input.shift();
-        const commandArgs = input.join(' ');
 
-        if (command === 'addtag') {
-            // [delta]
-        } else if (command === 'tag') {
-            // [epsilon]
-        } else if (command === 'edittag') {
-            // [zeta]
-        } else if (command === 'taginfo') {
-            // [theta]
-        } else if (command === 'showtags') {
-            // [lambda]
-        } else if (command === 'removetag') {
-            // [mu]
-        }
-    }
-});
 Reflect.defineProperty(currency, 'add', {
 	value: async function add(id, amount) {
 		const user = currency.get(id);
