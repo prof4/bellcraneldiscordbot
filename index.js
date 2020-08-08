@@ -79,6 +79,8 @@ bot.on('guildMemberAdd', async member => {
 	channel.send(`Welcome to the server, ${member}!`, attachment);
 });
 bot.on('messageDelete', async message => {
+    const channel = member.guild.channels.cache.find(ch => ch.name === 'audit-log');
+	if (!channel) return;
 	// ignore direct messages
 	if (!message.guild) return;
 	const fetchedLogs = await message.guild.fetchAuditLogs({
@@ -99,13 +101,16 @@ bot.on('messageDelete', async message => {
 	// And now we can update our output with a bit more information
 	// We will also run a check to make sure the log we got was for the same author's message
 	if (target.id === message.author.id) {
-		console.log(`A message by ${message.author.tag} was deleted by ${executor.tag}.`);
+		channel.send(`A message by ${message.author.tag} was deleted by ${executor.tag}.`);
 	}	else {
 		console.log(`A message by ${message.author.tag} was deleted, but we don't know by who.`);
 	}
 });
 
 bot.on('guildMemberRemove', async member => {
+    const channel = member.guild.channels.cache.find(ch => ch.name === 'audit-log');
+    const leavechannel = member.guild.channels.cache.find(ch => ch.name === '😢leaves😢');
+	if (!channel) return;
 	const fetchedLogs = await member.guild.fetchAuditLogs({
 		limit: 1,
 		type: 'MEMBER_KICK',
@@ -114,7 +119,7 @@ bot.on('guildMemberRemove', async member => {
 	const kickLog = fetchedLogs.entries.first();
 
 	// Let's perform a coherence check here and make sure we got *something*
-	if (!kickLog) return console.log(`${member.user.tag} left the guild, most likely of their own will.`);
+	if (!kickLog && leavechannel) return leavechannel.send(`${member.user.tag} left, pls come back soon.`);
 
 	// We now grab the user object of the person who kicked our member
 	// Let us also grab the target of this action to double check things
@@ -123,7 +128,7 @@ bot.on('guildMemberRemove', async member => {
 	// And now we can update our output with a bit more information
 	// We will also run a check to make sure the log we got was for the same kicked member
 	if (target.id === member.id) {
-		console.log(`${member.user.tag} left the guild; kicked by ${executor.tag}?`);
+		channel.send(`${member.user.tag} left the guild; kicked by ${executor.tag}?`);
 	} else {
 		console.log(`${member.user.tag} left the guild, audit log fetch was inconclusive.`);
 	}
