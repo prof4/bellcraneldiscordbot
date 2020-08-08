@@ -43,8 +43,8 @@ const applyText = (canvas, text) => {
 	return ctx.font;
 };
 
-client.on('guildMemberAdd', async member => {
-	const channel = member.guild.channels.cache.find(ch => ch.name === 'member-log');
+bot.on('guildMemberAdd', async member => {
+	const channel = member.guild.channels.cache.find(ch => ch.name === '🤗welcome🤗');
 	if (!channel) return;
 
 	const canvas = Canvas.createCanvas(700, 250);
@@ -77,6 +77,9 @@ client.on('guildMemberAdd', async member => {
 	const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
 
 	channel.send(`Welcome to the server, ${member}!`, attachment);
+});
+bot.on('messageDelete', message => {
+	console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
 });
 
 bot.on('message', message => {
