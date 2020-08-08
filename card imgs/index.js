@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+/*const Discord = require('discord.js');
 const {Client, MessageAttachment} = require('discord.js');
 const bot = new Client();
 
@@ -92,4 +92,4 @@ bot.on('message', message=>{
         break;
     }
 });
-bot.login(token);
+bot.login(token);//*/
