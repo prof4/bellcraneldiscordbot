@@ -105,7 +105,7 @@ bot.on('messageDelete', async message => {
 	}
 });
 
-client.on('guildMemberRemove', async member => {
+bot.on('guildMemberRemove', async member => {
 	const fetchedLogs = await member.guild.fetchAuditLogs({
 		limit: 1,
 		type: 'MEMBER_KICK',
