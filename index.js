@@ -48,7 +48,7 @@ const applyText = (canvas, text) => {
 };
 
 bot.on('guildMemberAdd', async member => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === '🤗welcome🤗');
+    const channel = member.guild.channels.cache.find(channel => channel.name === '🤗welcome🤗');
     if (!channel) return;
 
     const canvas = Canvas.createCanvas(700, 250);
@@ -83,7 +83,7 @@ bot.on('guildMemberAdd', async member => {
     channel.send(`Welcome to the server, ${member}!`, attachment);
 });
 bot.on('messageDelete', async message => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'audit-log');
+    const channel = message.member.guild.channels.cache.find(channel => channel.name === 'audit-log');
     if (!channel) return;
     // ignore direct messages
     if (!message.guild) return;
@@ -112,8 +112,8 @@ bot.on('messageDelete', async message => {
 });
 
 bot.on('guildMemberRemove', async member => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'audit-log');
-    const leavechannel = member.guild.channels.cache.find(ch => ch.name === '😢leaves😢');
+    let channel = member.guild.channels.cache.find(channel => channel.name === 'audit-log');
+    let leavechannel = member.guild.channels.cache.find(channel => channel.name === '😢leaves😢');
     if (!channel) return;
     const fetchedLogs = await member.guild.fetchAuditLogs({
         limit: 1,
@@ -123,7 +123,10 @@ bot.on('guildMemberRemove', async member => {
     const kickLog = fetchedLogs.entries.first();
 
     // Let's perform a coherence check here and make sure we got *something*
-    if (!kickLog && leavechannel) return leavechannel.send(`${member.user.tag} left, pls come back soon.`);
+    if (!kickLog && leavechannel) {
+        let channel = member.guild.channels.cache.find(ch => channel.name === '😢leaves😢');
+        return channel.send(`${member.user.tag} left, pls come back soon.`);
+    }
 
     // We now grab the user object of the person who kicked our member
     // Let us also grab the target of this action to double check things
@@ -132,13 +135,14 @@ bot.on('guildMemberRemove', async member => {
     // And now we can update our output with a bit more information
     // We will also run a check to make sure the log we got was for the same kicked member
     if (target.id === member.id) {
+        let channel = member.guild.channels.cache.find(channel => channel.name === 'audit-log');
         channel.send(`${member.user.tag} left the guild; kicked by ${executor.tag}?`);
     } else {
         console.log(`${member.user.tag} left the guild, audit log fetch was inconclusive.`);
     }
 });
 client.on('guildBanAdd', async (guild, user) => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'audit-log');
+    const channel = member.guild.channels.cache.find(channel => channel.name === 'audit-log');
     if (!channel) return;
     const fetchedLogs = await guild.fetchAuditLogs({
         limit: 1,
