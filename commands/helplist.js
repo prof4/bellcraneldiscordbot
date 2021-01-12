@@ -14,6 +14,7 @@ module.exports = {
             .addField('Moderation', PREFIX + 'help moderation', true)
             .addField('Utility', PREFIX + 'help utility', true)
             .addField('info', PREFIX + 'help info', true)
+            .addField('Other', PREFIX + 'help currency', true)
             .addField('Other', PREFIX + 'help other', true)
             .addField('Version', '0.0.1', true)
             .setColor('#5DADE2')
