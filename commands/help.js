@@ -47,6 +47,7 @@ module.exports = {
             embed8 = new Discord.MessageEmbed()
                 .setTitle('help currency page')
                 .addField(PREFIX + 'inventory', 'shows your inventory')
+                .addField(PREFIX + 'work', 'increase your money')
                 .addField(PREFIX + 'balance', 'shows the user current balance')
                 .addField(PREFIX + 'pay', 'pay or give a user money')
                 .addField(PREFIX + 'buy', 'buy a item from the shop')

@@ -24,8 +24,31 @@ for (const file of commandFiles) {
 var version = '0.0.1'
 
 var boss_man = '724640446982127666'
-const start_currency = 0
-bot.on('ready', () => {
+const start_currency = 0;
+Reflect.defineProperty(currency, 'add', {
+	/* eslint-disable-next-line func-name-matching */
+	value: async function add(id, amount) {
+		const user = currency.get(id);
+		if (user) {
+			user.balance += Number(amount);
+			return user.save();
+		}
+		const newUser = await Users.create({ user_id: id, balance: amount });
+		currency.set(id, newUser);
+		return newUser;
+	},
+});
+
+Reflect.defineProperty(currency, 'getBalance', {
+	/* eslint-disable-next-line func-name-matching */
+	value: function getBalance(id) {
+		const user = currency.get(id);
+		return user ? user.balance : 0;
+	},
+});
+bot.on('ready', async() => {
+    const storedBalances = await Users.findAll();
+    storedBalances.forEach(b => currency.set(b.user_id, b));
     console.log('Soul bot is online');
     bot.user.setActivity('krunker.io gameplay', { type: "STREAMING", url: "https://www.youtube.com/watch?v=qTXpI-7ghp8" }).catch(console.error);
 });
@@ -297,6 +320,7 @@ bot.on('message', async message => {
             var server_basic_role = args[1];
             break;
         case 'work':
+            bot.commands.get('work').execute(message, args);
             break;
         case 'welcome':
             if (message.member.hasPermission('MANAGE_SERVER') || message.member.hasPermission('MANAGE_CHANNELS'))
