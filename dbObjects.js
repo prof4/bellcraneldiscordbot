@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
  * You can read more about this issue On the [Sequelize issue tracker](https://github.com/sequelize/sequelize/issues/7310).
  */
 
-const sequelize = new Sequelize('database', 'root', 'PASSWORD', {
+const sequelize = new Sequelize('database', 'username', 'password', {
 	host: 'localhost',
 	dialect: 'sqlite',
 	logging: false,

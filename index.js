@@ -6,7 +6,7 @@ const bot = new Client();
 const { Users, CurrencyShop } = require('./dbObjects');
 const { Op } = require('sequelize');
 const currency = new Discord.Collection();
-const PREFIX = '-';
+const PREFIX = '=';
 
 let channel = "🤗welcome🤗"
 const fs = require('fs');
@@ -169,23 +169,20 @@ bot.on('guildBanAdd', async (guild, user) => {
 
 
 Reflect.defineProperty(currency, 'add', {
+	/* eslint-disable-next-line func-name-matching */
 	value: async function add(id, amount) {
 		const user = currency.get(id);
 		if (user) {
 			user.balance += Number(amount);
 			return user.save();
 		}
-		const newUser = Users.create({ user_id: id, balance: amount });
+		const newUser = await Users.create({ user_id: id, balance: amount });
 		currency.set(id, newUser);
 		return newUser;
-	}
+	},
 });
-const storedBalances = Users.findAll();
-storedBalances.forEach((b) => {
-    currency.set(b.user_id, b);
-});
-
 Reflect.defineProperty(currency, 'getBalance', {
+	/* eslint-disable-next-line func-name-matching */
 	value: function getBalance(id) {
 		const user = currency.get(id);
 		return user ? user.balance : 0;
@@ -241,7 +238,7 @@ bot.on('message', async message => {
 	} else if (command === 'leaderboard') {
 		return message.channel.send(
 			currency.sort((a, b) => b.balance - a.balance)
-				.filter(user => client.users.cache.has(user.user_id))
+				.filter(user => bot.users.cache.has(user.user_id))
 				.first(10)
 				.map((user, position) => `(${position + 1}) ${(client.users.cache.get(user.user_id).tag)}: ${user.balance}💰`)
 				.join('\n'),
@@ -314,9 +311,9 @@ bot.on('message', async message => {
 });
 
 //const token = 'NzMzMTg5MDkwNDYzNDQ5MjA5.XxKalQ.6QIu3WM53_FDV1qh1kf7RcsOi_c';//anime bot token from name : @bell cranel
-const token = 'NzI3ODQ0NDQwNjA0OTM0MjQ0.Xvxv9Q.W_JK0cxoWhmH-z8q58K3-6G_j5A';//anime bot token from name : @bell cranel
-bot.login(token);
+//const token = 'NzI3ODQ0NDQwNjA0OTM0MjQ0.Xvxv9Q.W_JK0cxoWhmH-z8q58K3-6G_j5A';//anime bot token from name : @bell cranel
+//bot.login(token);
 
-//bot.login(process.env.token);
+bot.login(process.env.token);
 
 //${client.guilds.cache.size}
