@@ -31,7 +31,7 @@ bot.on('ready', () => {
 });
 
 
-/*const applyText = (canvas, text) => {
+const applyText = (canvas, text) => {
     const ctx = canvas.getContext('2d');
 
     // Declare a base size of the font
@@ -45,9 +45,9 @@ bot.on('ready', () => {
 
     // Return the result to use in the actual canvas
     return ctx.font;
-};*/
+};
 
-/*bot.on('guildMemberAdd', async member => {
+bot.on('guildMemberAdd', async member => {
     const channel = member.guild.channels.cache.find(channel => channel.name === '🤗welcome🤗');
     if (!channel) return;
 
@@ -81,7 +81,7 @@ bot.on('ready', () => {
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
 
     channel.send(`Welcome to the server, ${member}!`, attachment);
-});*/
+});
 bot.on('messageDelete', async message => {
     const channel = message.member.guild.channels.cache.find(channel => channel.name === 'audit-log');
     if (!channel) return;
