@@ -10,7 +10,6 @@
   "author": "Arata#6550",
   "license": "ISC",
   "dependencies": {
-    "canvas": "^2.6.1",
     "discord.js": "^12.5.1",
     "js": "^0.1.0",
     "sequelize": "^6.3.4",
