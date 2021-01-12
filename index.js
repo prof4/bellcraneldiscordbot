@@ -207,7 +207,7 @@ bot.on('message', async message => {
 
 		if (!items.length) return message.channel.send(`${target.tag} has nothing!`);
 		return message.channel.send(`${target.tag} currently has ${items.map(t => `${t.amount} ${t.item.name}`).join(', ')}`);
-	} else if (command === 'transfer') {
+	} else if (command === 'pay') {
 		const currentAmount = currency.getBalance(message.author.id);
 		const transferAmount = commandArgs.split(/ +/).find(arg => !/<@!?\d+>/.test(arg));
 		const transferTarget = message.mentions.users.first();
@@ -235,7 +235,7 @@ bot.on('message', async message => {
 	} else if (command === 'shop') {
 		const items = await CurrencyShop.findAll();
 		return message.channel.send(items.map(i => `${i.name}: ${i.cost}💰`).join('\n'), { code: true });
-	} else if (command === 'leaderboard') {
+	} else if (command === 'lb') {
 		return message.channel.send(
 			currency.sort((a, b) => b.balance - a.balance)
 				.filter(user => bot.users.cache.has(user.user_id))

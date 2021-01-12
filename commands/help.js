@@ -43,6 +43,17 @@ module.exports = {
                 .addField(PREFIX + 'info version', 'sends the version of the bot')
                 .setColor('#5DADE2')
             message.channel.send(embed8)
+        } else if (args[1] === 'currency') {
+            embed8 = new Discord.MessageEmbed()
+                .setTitle('help currency page')
+                .addField(PREFIX + 'inventory', 'shows your inventory')
+                .addField(PREFIX + 'balance', 'shows the user current balance')
+                .addField(PREFIX + 'pay', 'pay or give a user money')
+                .addField(PREFIX + 'buy', 'buy a item from the shop')
+                .addField(PREFIX + 'shop', 'shows the shop items')
+                .addField(PREFIX + 'lb', 'shows the leaderboard')
+                .setColor('#5DADE2')
+            message.channel.send(embed8)
         } else {
             message.channel.send('command doesnt exist')
         }
