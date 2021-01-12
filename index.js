@@ -141,7 +141,7 @@ bot.on('guildMemberRemove', async member => {
         console.log(`${member.user.tag} left the guild, audit log fetch was inconclusive.`);
     }
 });
-client.on('guildBanAdd', async (guild, user) => {
+bot.on('guildBanAdd', async (guild, user) => {
     const channel = member.guild.channels.cache.find(channel => channel.name === 'audit-log');
     if (!channel) return;
     const fetchedLogs = await guild.fetchAuditLogs({
@@ -175,13 +175,15 @@ Reflect.defineProperty(currency, 'add', {
 			user.balance += Number(amount);
 			return user.save();
 		}
-		const newUser = await Users.create({ user_id: id, balance: amount });
+		const newUser = Users.create({ user_id: id, balance: amount });
 		currency.set(id, newUser);
 		return newUser;
-	},
+	}
 });
-const storedBalances = await Users.findAll();
-storedBalances.forEach(b => currency.set(b.user_id, b));
+const storedBalances = Users.findAll();
+storedBalances.forEach((b) => {
+    currency.set(b.user_id, b);
+});
 
 Reflect.defineProperty(currency, 'getBalance', {
 	value: function getBalance(id) {
@@ -191,61 +193,61 @@ Reflect.defineProperty(currency, 'getBalance', {
 });
 bot.on('message', async message => {
     if (message.author.bot) return;
-    currency.add(message.author.id, 1);
+	currency.add(message.author.id, 1);
 
-    if (!message.content.startsWith(PREFIX)) return;
-    const input = message.content.slice(PREFIX.length).trim();
-    if (!input.length) return;
-    const [, command, commandArgs] = input.match(/(\w+)\s*([\s\S]*)/);
+	if (!message.content.startsWith(PREFIX)) return;
+	const input = message.content.slice(PREFIX.length).trim();
+	if (!input.length) return;
+	const [, command, commandArgs] = input.match(/(\w+)\s*([\s\S]*)/);
 
-    if (command === 'balance') {
-        const target = message.mentions.users.first() || message.author;
-        return message.channel.send(`${target.tag} has ${currency.getBalance(target.id)}💰`);
-    } else if (command === 'inventory') {
-        const target = message.mentions.users.first() || message.author;
-        const user = await Users.findOne({ where: { user_id: target.id } });
-        const items = await user.getItems();
+	if (command === 'balance') {
+		const target = message.mentions.users.first() || message.author;
+		return message.channel.send(`${target.tag} has ${currency.getBalance(target.id)}💰`);
+	} else if (command === 'inventory') {
+		const target = message.mentions.users.first() || message.author;
+		const user = await Users.findOne({ where: { user_id: target.id } });
+		const items = await user.getItems();
 
-        if (!items.length) return message.channel.send(`${target.tag} has nothing!`);
-        return message.channel.send(`${target.tag} currently has ${items.map(i => `${i.amount} ${i.item.name}`).join(', ')}`);
-    } else if (command === 'transfer') {
-        const currentAmount = currency.getBalance(message.author.id);
-        const transferAmount = commandArgs.split(/ +/g).find(arg => !/<@!?\d+>/g.test(arg));
-        const transferTarget = message.mentions.users.first();
+		if (!items.length) return message.channel.send(`${target.tag} has nothing!`);
+		return message.channel.send(`${target.tag} currently has ${items.map(t => `${t.amount} ${t.item.name}`).join(', ')}`);
+	} else if (command === 'transfer') {
+		const currentAmount = currency.getBalance(message.author.id);
+		const transferAmount = commandArgs.split(/ +/).find(arg => !/<@!?\d+>/.test(arg));
+		const transferTarget = message.mentions.users.first();
 
-        if (!transferAmount || isNaN(transferAmount)) return message.channel.send(`Sorry ${message.author}, that's an invalid amount.`);
-        if (transferAmount > currentAmount) return message.channel.send(`Sorry ${message.author}, you only have ${currentAmount}.`);
-        if (transferAmount <= 0) return message.channel.send(`Please enter an amount greater than zero, ${message.author}.`);
+		if (!transferAmount || isNaN(transferAmount)) return message.channel.send(`Sorry ${message.author}, that's an invalid amount`);
+		if (transferAmount > currentAmount) return message.channel.send(`Sorry ${message.author} you don't have that much.`);
+		if (transferAmount <= 0) return message.channel.send(`Please enter an amount greater than zero, ${message.author}`);
 
-        currency.add(message.author.id, -transferAmount);
-        currency.add(transferTarget.id, transferAmount);
+		currency.add(message.author.id, -transferAmount);
+		currency.add(transferTarget.id, transferAmount);
 
-        return message.channel.send(`Successfully transferred ${transferAmount}💰 to ${transferTarget.tag}. Your current balance is ${currency.getBalance(message.author.id)}💰`);
-    } else if (command === 'buy') {
-        const item = await CurrencyShop.findOne({ where: { name: { [Op.like]: commandArgs } } });
-        if (!item) return message.channel.send(`That item doesn't exist.`);
-        if (item.cost > currency.getBalance(message.author.id)) {
-            return message.channel.send(`You currently have ${currency.getBalance(message.author.id)}, but the ${item.name} costs ${item.cost}!`);
-        }
+		return message.channel.send(`Successfully transferred ${transferAmount}💰 to ${transferTarget.tag}. Your current balance is ${currency.getBalance(message.author.id)}💰`);
+	} else if (command === 'buy') {
+		const item = await CurrencyShop.findOne({ where: { name: { [Op.like]: commandArgs } } });
+		if (!item) return message.channel.send('That item doesn\'t exist.');
+		if (item.cost > currency.getBalance(message.author.id)) {
+			return message.channel.send(`You don't have enough currency, ${message.author}`);
+		}
 
-        const user = await Users.findOne({ where: { user_id: message.author.id } });
-        currency.add(message.author.id, -item.cost);
-        await user.addItem(item);
+		const user = await Users.findOne({ where: { user_id: message.author.id } });
+		currency.add(message.author.id, -item.cost);
+		await user.addItem(item);
 
-        message.channel.send(`You've bought: ${item.name}.`);
-    } else if (command === 'shop') {
-        const items = await CurrencyShop.findAll();
-        return message.channel.send(items.map(item => `${item.name}: ${item.cost}💰`).join('\n'), { code: true });
-    } else if (command === 'leaderboard') {
-        return message.channel.send(
-            currency.sort((a, b) => b.balance - a.balance)
-                .filter(user => client.users.cache.has(user.user_id))
-                .first(10)
-                .map((user, position) => `(${position + 1}) ${(client.users.cache.get(user.user_id).tag)}: ${user.balance}💰`)
-                .join('\n'),
-            { code: true }
-        );
-    }
+		message.channel.send(`You've bought a ${item.name}`);
+	} else if (command === 'shop') {
+		const items = await CurrencyShop.findAll();
+		return message.channel.send(items.map(i => `${i.name}: ${i.cost}💰`).join('\n'), { code: true });
+	} else if (command === 'leaderboard') {
+		return message.channel.send(
+			currency.sort((a, b) => b.balance - a.balance)
+				.filter(user => client.users.cache.has(user.user_id))
+				.first(10)
+				.map((user, position) => `(${position + 1}) ${(client.users.cache.get(user.user_id).tag)}: ${user.balance}💰`)
+				.join('\n'),
+			{ code: true }
+		);
+	}
     let args = message.content.slice(PREFIX.length).split(" ");
     switch (args[0]) {
         case 'youtube':
@@ -312,8 +314,9 @@ bot.on('message', async message => {
 });
 
 //const token = 'NzMzMTg5MDkwNDYzNDQ5MjA5.XxKalQ.6QIu3WM53_FDV1qh1kf7RcsOi_c';//anime bot token from name : @bell cranel
-//bot.login(token);
+const token = 'NzI3ODQ0NDQwNjA0OTM0MjQ0.Xvxv9Q.W_JK0cxoWhmH-z8q58K3-6G_j5A';//anime bot token from name : @bell cranel
+bot.login(token);
 
-bot.login(process.env.token);
+//bot.login(process.env.token);
 
 //${client.guilds.cache.size}
