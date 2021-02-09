@@ -1,23 +1,26 @@
 const Discord = require('discord.js');
 const { Client, MessageAttachment } = require('discord.js');
 
-var card_index = ['accelerator t4 from  csr and cmi.PNG', 'agel t1 sao.PNG', 'airi t2 classroom of the elite.PNG', 'Ak-12 t5 girls frontline.png', 'akeno t5.PNG', 'Ame t5 from wolf childeren.PNG', 'card 1.PNG', 'card 2.PNG', 'card 3.PNG', 'card 4.PNG', 'card 5 naruto.PNG', 'card 6.PNG', 'card 7 bleach.PNG', 'card 8 ssss gridman.PNG', 'card 9 ssss gridman.PNG', 'card 10 ssss gridman.PNG', 'celty t5 Durara.PNG', 'Gowter t5 seven deadly sins.PNG', 'joker t5.PNG', 'kakashi t5.PNG', 'Yuuki t5 sao.PNG', 'card 5.PNG'];
+var card_index = ['https://cdn.animesoul.com/images/cards/1/1611591896997.png', 'https://cdn.animesoul.com/images/cards/1/1611980519523.png', 'https://cdn.animesoul.com/images/cards/1/1612026788290.png', 'https://cdn.animesoul.com/images/cards/1/1612111752852.png', 'https://cdn.animesoul.com/images/cards/1/1612136313861.png', 'https://cdn.animesoul.com/images/cards/1/1612145891565.png', 'https://cdn.animesoul.com/images/cards/1/1612227524464.png', 'https://cdn.animesoul.com/images/cards/1/1612256003368.png', 'https://cdn.animesoul.com/images/cards/1/1612310983027.png', 'https://cdn.animesoul.com/images/cards/1/1612449225696.png', 'https://cdn.animesoul.com/images/cards/1/1612622235554.png', 'https://cdn.animesoul.com/images/cards/1/1612855277655.png', 'https://cdn.animesoul.com/images/cards/1/1611888291232.png', 'https://cdn.animesoul.com/images/cards/1/1611892015136.png', 'https://cdn.animesoul.com/images/cards/1/1611918993244.png', 'https://cdn.animesoul.com/images/cards/1/1611920501458.png', 'https://cdn.animesoul.com/images/cards/1/1611924257888.png', 'https://cdn.animesoul.com/images/cards/1/1611954863985.png', 'https://cdn.animesoul.com/images/cards/1/1611961282364.png', 'https://cdn.animesoul.com/images/cards/1/1611962908399.png', 'https://cdn.animesoul.com/images/cards/1/1611968152491.png', 'https://cdn.animesoul.com/images/cards/1/1611975038816.png', 'https://cdn.animesoul.com/images/cards/1/1611989637294.png', 'https://cdn.animesoul.com/images/cards/1/1611990400931.png'];//ben op pagina 3 pagina 2 is al af
 var cards = card_index[Math.floor(Math.random() * card_index.length)];
 module.exports = {
     name: 'spawncard',
     description: "this is a card spawning command!",
-    execute(message, args) {
+    execute(message) {
         var cardspawner = '734389283632185345';
 
         if (message.member.roles.cache.some(role => role.name === "cardspawner") || message.member.hasPermission('MANAGE_MESSAGES')) {
             var cards = card_index[Math.floor(Math.random() * card_index.length)];
-            var attachment2 = new MessageAttachment(cards)
-            const embed8 = new Discord.MessageEmbed
+            const embed8 = new Discord.MessageEmbed()
+                .setColor('#0099ff')
                 .setTitle("What's this?")
                 .setDescription("A wild anime card appears!")
                 .setThumbnail(message.author.displayAvatarURL())
-                .setFooter("Type .claim to add this card to your collection")
-            message.channel.send(embed8, attachment2);
+                //.attachFiles([`../soulcord complete/card imgs/${cards}`])
+                //.setImage('attachment://'+cards)
+                .setImage(cards)
+                .setFooter("Type .claim to add this card to your collection");
+            message.channel.send(embed8);
         } else {
             return message.channel.send('You do not have the permissions');
         }
