@@ -328,6 +328,10 @@ bot.on('message', async message => {
             let channel = member.guild.channels.cache.find(channel => channel.name === args[1]);
             if (!channel) return message.channel.send('invalid channel')
             break;
+        case 'spawncard':
+            bot.commands.get('spawncard').execute(message);
+        case 'claim':
+            bot.commands.get('claim').execute(message);
 
 
 
